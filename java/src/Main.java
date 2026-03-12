@@ -251,7 +251,75 @@ public class Main {
         t.setText("");
         a.setText("");
     }
+
+    private static void cargarUsuarios() {
+        try {
+            File f = new File(USUARIOS_FILE);
+            if(!f.exists()) f.createNewFile();
+            BufferedReader br = new BufferedReader(new FileReader(f));
+            String linea;
+            while((linea=br.readLine())!=null){
+                String[] partes = linea.split(":",2);
+                if(partes.length==2) usuarios.put(partes[0], partes[1]);
+            }
+            br.close();
+        } catch(Exception e){ e.printStackTrace(); }
+    }
+
+    private static void guardarUsuarios() {
+        try{
+            BufferedWriter bw = new BufferedWriter(new FileWriter(USUARIOS_FILE));
+            for(String u : usuarios.keySet()) {
+                bw.write(u + ":" + usuarios.get(u));
+                bw.newLine();
+            }
+            bw.close();
+        }catch(Exception e){ e.printStackTrace(); }
+    }
+
+    private static void cargarNotas(String usuario) {
+        modeloNotas.clear();
+        try {
+            File dir = new File(NOTAS_DIR);
+            if(!dir.exists()) dir.mkdir();
+            File f = new File(NOTAS_DIR + usuario + ".txt");
+            if(!f.exists()) f.createNewFile();
+            BufferedReader br = new BufferedReader(new FileReader(f));
+            String linea;
+            while((linea=br.readLine())!=null){
+                String[] partes = linea.split(":",2);
+                if(partes.length==2) modeloNotas.addElement(new Nota(partes[0], partes[1]));
+            }
+            br.close();
+        } catch(Exception e){ e.printStackTrace(); }
+    }
+
+    private static void guardarNotas(String usuario) {
+        try {
+            BufferedWriter bw = new BufferedWriter(new FileWriter(NOTAS_DIR + usuario + ".txt"));
+            for(int i=0;i<modeloNotas.size();i++){
+                Nota n = modeloNotas.get(i);
+                bw.write(n.getTitulo() + ":" + n.getContenido());
+                bw.newLine();
+            }
+            bw.close();
+        } catch(Exception e){ e.printStackTrace(); }
+    }
+
+    private static String hashPassword(String password) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte[] hash = md.digest(password.getBytes());
+            StringBuilder sb = new StringBuilder();
+            for(byte b : hash) sb.append(String.format("%02x", b));
+            return sb.toString();
+        } catch(NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
+
 class Nota {
     private String titulo;
     private String contenido;
