@@ -85,7 +85,6 @@ public class Main {
             }
             usuarios.put(usuario, hashPassword(pass));
             guardarUsuarios();
-            // Crear archivo de notas vacío
             File dir = new File(NOTAS_DIR);
             if(!dir.exists()) dir.mkdir();
             try { new File(NOTAS_DIR + usuario + ".txt").createNewFile(); } catch(Exception ex) {}
@@ -161,9 +160,9 @@ public class Main {
         ventana.add(panelPrincipal);
         ventana.setVisible(true);
 
-        // ================= FUNCIONALIDADES =================
+        //Botones
 
-        // Crear
+
         btnCrear.addActionListener(e -> {
             String titulo = campoTitulo.getText().trim();
             String contenido = areaContenido.getText().trim();
@@ -175,7 +174,7 @@ public class Main {
             limpiarCampos(campoTitulo, areaContenido);
         });
 
-        // Seleccionar nota
+
         listaNotas.addListSelectionListener(e -> {
             if(!e.getValueIsAdjusting()) {
                 Nota n = listaNotas.getSelectedValue();
@@ -202,7 +201,7 @@ public class Main {
             areaLogs.append("Nota editada: " + nuevoTitulo + "\n");
         });
 
-        // Eliminar
+
         btnEliminar.addActionListener(e -> {
             int index = listaNotas.getSelectedIndex();
             if(index == -1) { JOptionPane.showMessageDialog(ventana,"Seleccione una nota","Error",JOptionPane.WARNING_MESSAGE); return; }
@@ -213,13 +212,13 @@ public class Main {
             limpiarCampos(campoTitulo, areaContenido);
         });
 
-        // Limpiar campos
+
         btnLimpiar.addActionListener(e -> {
             limpiarCampos(campoTitulo, areaContenido);
             areaLogs.append("Campos limpiados\n");
         });
 
-        // Cerrar sesión
+
         btnCerrarSesion.addActionListener(e -> {
             guardarNotas(usuarioActual);
             usuarioActual = null;
@@ -254,7 +253,7 @@ public class Main {
             }
         });
 
-        // Buscar en tiempo real
+
         campoBuscar.getDocument().addDocumentListener(new DocumentListener() {
             private void filtrar() {
                 String filtro = campoBuscar.getText().trim().toLowerCase();
