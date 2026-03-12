@@ -130,12 +130,14 @@ public class Main {
         JButton btnEliminar = new JButton("Eliminar");
         JButton btnLimpiar = new JButton("Limpiar");
         JButton btnCerrarSesion = new JButton("Cerrar sesión");
+        JButton btnBorrarNotas = new JButton("Eliminar todas las notas");
 
         panelBotones.add(btnCrear);
         panelBotones.add(btnEditar);
         panelBotones.add(btnEliminar);
         panelBotones.add(btnLimpiar);
         panelBotones.add(btnCerrarSesion);
+        panelBotones.add(btnBorrarNotas);
 
         panelEditor.add(panelBotones, BorderLayout.SOUTH);
         panelPrincipal.add(panelEditor, BorderLayout.CENTER);
@@ -224,6 +226,32 @@ public class Main {
             modeloNotas.clear();
             ventana.dispose();
             mostrarLogin();
+        });
+
+        btnBorrarNotas.addActionListener(e -> {
+
+            int confirm = JOptionPane.showConfirmDialog(
+                    ventana,
+                    "¿Seguro que quieres borrar TODAS las notas?\nEsta acción no se puede deshacer.",
+                    "Confirmar borrado",
+                    JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE
+            );
+
+            if(confirm == JOptionPane.YES_OPTION) {
+
+                modeloNotas.clear();                 // borrar todas las notas de la lista
+                guardarNotas(usuarioActual);         // actualizar archivo
+
+                areaLogs.append("Todas las notas fueron eliminadas\n");
+
+                JOptionPane.showMessageDialog(
+                        ventana,
+                        "Todas las notas han sido eliminadas",
+                        "Borrado completo",
+                        JOptionPane.INFORMATION_MESSAGE
+                );
+            }
         });
 
         // Buscar en tiempo real
