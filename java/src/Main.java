@@ -15,7 +15,12 @@ public class Main {
 
     }
 
+    private static final String USUARIOS_FILE = "usuarios.txt";
+    private static final String NOTAS_DIR = "notas/";
 
+    private static Map<String, String> usuarios = new HashMap<>(); // usuario -> hash
+    private static DefaultListModel<Nota> modeloNotas = new DefaultListModel<>();
+    private static String usuarioActual = null;
 }
 
 
