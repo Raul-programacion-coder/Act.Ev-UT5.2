@@ -247,7 +247,10 @@ public class Main {
         });
     }
 
-    
+    private static void limpiarCampos(JTextField t, JTextArea a) {
+        t.setText("");
+        a.setText("");
+    }
 }
 class Nota {
     private String titulo;
